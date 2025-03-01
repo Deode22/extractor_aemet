@@ -13,6 +13,16 @@ Este proyecto es una aplicación Streamlit que permite consultar y visualizar da
 *   **Mapa de estaciones:** Incluye un mapa interactivo (iframe) para visualizar la ubicación de las estaciones meteorológicas de AEMET (requiere el archivo `mapa_estaciones.html`).
 *   **Manejo de errores:** Incorpora un manejo robusto de errores de conexión y de datos.
 
+## Galería
+
+<table>
+  <tr>
+    <td><img src="Imagenes/Interfaz.png" alt="Interfaz" width="300"></td>
+    <td><img src="Imagenes/Mapa_estaciones.png" alt="Mapa de estaciones" width="300"></td>
+    <td><img src="Imagenes/Graficos.png" alt="Gráficos" width="300"></td>
+  </tr>
+</table>
+
 ## Requisitos
 
 *   Python 3.7+
