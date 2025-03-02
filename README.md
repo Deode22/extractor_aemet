@@ -4,6 +4,8 @@
 
 Este proyecto es una aplicación Streamlit que permite consultar y visualizar datos meteorológicos de la Agencia Estatal de Meteorología (AEMET) de España, a través de su API pública de datos abiertos. Permite obtener datos de las últimas 12 horas de una estación meteorológica específica, así como datos diarios para un rango de fechas arbitrario.
 
+Se encuentra publicado en Streamlit Community bajo en enlace: https://datosaemet.streamlit.app
+
 ## Características
 
 *   **Consulta de datos de las últimas 12 horas:** Obtiene los datos más recientes de una estación meteorológica.
