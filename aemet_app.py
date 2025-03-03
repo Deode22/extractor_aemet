@@ -170,10 +170,9 @@ st.markdown(
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #f5f5f5;
-        color: #808080;
+        color: #ffff;
         text-align: center;
-        padding: 10px 0;
+        padding: 3px 0;
         font-style: italic;
         font-size: 0.8rem;
         border-top: 1px solid #ddd;
