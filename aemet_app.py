@@ -153,7 +153,7 @@ def graficar_datos_12h(df):
     fig_temp.update_traces(line_color='green', selector=dict(name='ta'))
     st.plotly_chart(fig_temp, use_container_width=True)
 
-# --- Interfaz Streamlit (sin cambios) ---
+# --- Estilo CSS personalizado con pie de página ---
 st.markdown(
     """
     <style>
@@ -162,12 +162,31 @@ st.markdown(
         padding-top: 1rem;
         padding-right: 1rem;
         padding-left: 1rem;
-        padding-bottom: 1rem;
+        padding-bottom: 4rem;  /* Añadido padding para dejar espacio al footer */
+    }
+    
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #f5f5f5;
+        color: #808080;
+        text-align: center;
+        padding: 10px 0;
+        font-style: italic;
+        font-size: 0.8rem;
+        border-top: 1px solid #ddd;
     }
     </style>
+    
+    <div class="footer">
+        <p>Información elaborada por la Agencia Estatal de Meteorología AEMET©</p>
+    </div>
     """,
     unsafe_allow_html=True,
 )
+
 
 st.title("Consulta de Datos Meteorológicos (AEMET)")
 st.warning("Las estaciones PLUVIOMÉTRICAS no están devolviendo datos.")
