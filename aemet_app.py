@@ -170,7 +170,6 @@ st.markdown(
         left: 0;
         bottom: 0;
         width: 100%;
-        color: #ffff;
         text-align: center;
         padding: 3px 0;
         font-style: italic;
