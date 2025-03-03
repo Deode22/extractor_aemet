@@ -7,9 +7,6 @@ import streamlit.components.v1 as components
 import plotly.express as px
 from datetime import timedelta  # Importante para manejar fechas
 
-'''
-Las estaciones PLUVIOMÉTRICAS no están devolviendo datos
-'''
 
 # Se que tener el secreto API aquí es una chapuza, pero quería mantenerlo simple y accesible. Es una API que he recogido especificamente para el proyecto
 # --- Configuración y API Key ---
