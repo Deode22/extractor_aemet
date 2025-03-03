@@ -5,7 +5,7 @@ import pandas as pd
 from io import BytesIO
 import streamlit.components.v1 as components
 import plotly.express as px
-from datetime import timedelta  # Importante para manejar fechas
+from datetime import timedelta
 
 
 # Se que tener el secreto API aquí es una chapuza, pero quería mantenerlo simple y accesible. Es una API que he recogido especificamente para el proyecto
@@ -234,7 +234,11 @@ if st.session_state.datos_obtenidos:
     st.download_button(label="Descargar CSV", data=csv_buffer, file_name=nombre_archivo, mime="text/csv")
 
     # Botones de graficado y llamadas a funciones (sin columnas)
-    if st.session_state.tipo_consulta_actual == "12h" and st.button("Graficar (12h)"):
-        graficar_datos_12h(st.session_state.df_datos)
-    elif st.session_state.tipo_consulta_actual == "diarios" and st.button("Graficar (Diarios)"):
-        graficar_datos_diarios(st.session_state.df_datos)
+    if st.session_state.tipo_consulta_actual == "12h":
+        if st.button("Graficar (12h)"):
+            graficar_datos_12h(st.session_state.df_datos)
+            st.info("Si quieres los graficos en modo claro, ve a la esquina superior derecha > settings > y cambia el tema a modo claro")
+    elif st.session_state.tipo_consulta_actual == "diarios":
+        if st.button("Graficar (Diarios)"):
+            graficar_datos_diarios(st.session_state.df_datos)
+            st.info("Si quieres los graficos en modo claro, ve a la esquina superior derecha > settings > y cambia el tema a modo claro")
