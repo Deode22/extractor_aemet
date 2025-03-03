@@ -8,8 +8,10 @@ import plotly.express as px
 from datetime import timedelta  # Importante para manejar fechas
 
 '''
-Se que tener el secreto API aquí es una chapuza, pero quería mantenerlo simple y accesible. Es una API que he recogido especificamente para el proyecto
+Las estaciones PLUVIOMÉTRICAS no están devolviendo datos
 '''
+
+# Se que tener el secreto API aquí es una chapuza, pero quería mantenerlo simple y accesible. Es una API que he recogido especificamente para el proyecto
 # --- Configuración y API Key ---
 API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkLmZ2aWxsYW51ZXZhQHVwbS5lcyIsImp0aSI6IjcwMGU0NDA4LWEzODktNDg3MC1hNzRlLTFhOTBiZDUxOTRlNCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzE4Mjg1NzAwLCJ1c2VySWQiOiI3MDBlNDQwOC1hMzg5LTQ4NzAtYTc0ZS0xYTkwYmQ1MTk0ZTQiLCJyb2xlIjoiIn0.JZjhHTGBk-85Q0g260S08Qekel2LVnk3pSOGdVwBdUM"
 
