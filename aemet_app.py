@@ -10,7 +10,7 @@ from datetime import timedelta
 
 # Se que tener el secreto API aquí es una chapuza, pero quería mantenerlo simple y accesible. Es una API que he recogido especificamente para el proyecto
 # --- Configuración y API Key ---
-API_KEY = st.secrets["aemet"]["api_key"]
+API_KEY = st.secrets[aemet]["api_key"]
 
 # --- Funciones de la API ---
 def obtener_datos12h_estacion(idema, api_key):
