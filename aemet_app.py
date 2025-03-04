@@ -187,7 +187,6 @@ st.markdown(
 
 
 st.title("Consulta de Datos Meteorológicos (AEMET)")
-st.warning("Las estaciones PLUVIOMÉTRICAS no están devolviendo datos.")
 
 # --- Mapa de estaciones (iframe) ---
 mostrar_mapa = st.checkbox("Mostrar mapa de estaciones")
