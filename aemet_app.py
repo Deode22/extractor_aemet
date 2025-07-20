@@ -412,10 +412,22 @@ def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_es
     ax1.tick_params(axis='x', colors='black')
 
     # Limites
-    ax1.set_ylim(0, max(precipitacion) + 50)
-    ax2.set_ylim(-10, max(temp_max) + 5)
-    ax1.set_yticks(np.arange(0, max(precipitacion)+1, 20))
-    ax2.set_yticks(np.arange(-10, max(temp_max)+1, 10))
+    # Establecer límites para que la precipitación sea el doble de la temperatura
+    max_temp_for_scale = max(max(temp_max) + 5, 40)  # Asegurar un mínimo razonable
+    max_precip_for_scale = max_temp_for_scale * 2  # Precipitación = 2 * Temperatura
+    
+    # Asegurar que el máximo de precipitación visible sea al menos el máximo real + un margen
+    max_precip_visible = max(max_precip_for_scale, max(precipitacion) + 20)
+    
+    ax1.set_ylim(0, max_precip_visible)
+    ax2.set_ylim(-10, max_temp_for_scale)
+    
+    # Configurar las marcas de los ejes para mantener la relación 2:1
+    temp_ticks = np.arange(-10, max_temp_for_scale+1, 10)
+    precip_ticks = np.arange(0, max_precip_visible+1, 20)  # Incrementos de 20mm
+    
+    ax1.set_yticks(precip_ticks)
+    ax2.set_yticks(temp_ticks)
     ax1.set_xticks(x)
     ax1.set_xticklabels(meses)
 
