@@ -411,23 +411,19 @@ def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_es
     ax1.tick_params(axis='x', colors='black')
 
     # Limites con proporción 2:1 (precipitación:temperatura)
+    # Determinar el límite superior de precipitación
     max_precip = max(precipitacion) + 50
-    max_temp = max(temp_max) + 5
-    min_temp = -10
     
-    # Calcular el rango necesario para mantener la proporción 2:1
-    # El rango de precipitación debe ser el doble del rango de temperatura
-    rango_temp = max_temp - min_temp
-    rango_precip = rango_temp * 2
+    # El límite superior de temperatura debe ser la mitad del de precipitación
+    # Para mantener la proporción: 2mm = 1°C
+    min_temp = 0
+    max_temp = max_precip / 2
     
-    # Ajustar para que ambos ejes tengan la proporción correcta
-    max_precip_ajustado = max(max_precip, rango_precip)
+    ax1.set_ylim(0, max_precip)
+    ax2.set_ylim(min_temp, max_temp)
     
-    ax1.set_ylim(0, max_precip_ajustado)
-    ax2.set_ylim(min_temp, min_temp + max_precip_ajustado / 2)
-    
-    ax1.set_yticks(np.arange(0, max_precip_ajustado + 1, 20))
-    ax2.set_yticks(np.arange(min_temp, min_temp + max_precip_ajustado / 2 + 1, 10))
+    ax1.set_yticks(np.arange(0, max_precip + 1, 20))
+    ax2.set_yticks(np.arange(min_temp, max_temp + 1, 10))
     ax1.set_xticks(x)
     ax1.set_xticklabels(meses)
 
