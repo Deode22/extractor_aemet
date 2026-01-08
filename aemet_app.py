@@ -322,7 +322,7 @@ def generar_tabla_climatica(df):
     
     # Crear un DataFrame con los resultados
     result_df = pd.DataFrame({
-        'Parámetro': ['T.M.A', 'T.m.A', 'T.m', 'T.m.m', 'T.m.A', 'PP'],
+        'Parámetro': ['T.M.A', 'T.m.M', 'T.m', 'T.m.m', 'T.m.A', 'PP'],
         'ENE': [TMA[0], TmmA[0], Tm[0], Tmmm[0], TmA[0], PP[0]],
         'FEB': [TMA[1], TmmA[1], Tm[1], Tmmm[1], TmA[1], PP[1]],
         'MAR': [TMA[2], TmmA[2], Tm[2], Tmmm[2], TmA[2], PP[2]],
@@ -340,7 +340,7 @@ def generar_tabla_climatica(df):
     # Añadir descripciones de los parámetros
     parametros_desc = {
         'T.M.A': 'Temperatura Máxima Absoluta (°C)',
-        'T.m.A': 'Temperatura Media de Máximas (°C)',
+        'T.m.M': 'Temperatura Media de Máximas (°C)',
         'T.m': 'Temperatura Media (°C)',
         'T.m.m': 'Temperatura Media de Mínimas (°C)',
         'T.m.A': 'Temperatura Mínima Absoluta (°C)',
@@ -355,7 +355,6 @@ def generar_tabla_climatica(df):
     
     return result_df
 
-# --- Función para generar el climodiagrama ---
 def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_estacion, alt_estacion, anio_inicio, anio_fin):
     if tabla_climatica is None or tabla_climatica.empty:
         st.warning("No hay datos suficientes para generar el climodiagrama.")
@@ -411,40 +410,24 @@ def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_es
     ax1.tick_params(axis='y', colors='black')
     ax1.tick_params(axis='x', colors='black')
 
-    # --- Escala Walter-Lieth: P = 2T (40 mm ↔ 20 ºC) ---
-    p_step = 20  # 20 mm <-> 10 ºC
-    t_step = p_step / 2
+    # Limites con proporción 2:1 (precipitación:temperatura)
+    max_precip = max(precipitacion) + 50
+    max_temp = max(temp_max) + 5
+    min_temp = -10
     
-    # usa el mínimo/máximo de la temperatura que estés dibujando (temp_media)
-    t_min = float(np.min(temp_media))
-    t_max = float(np.max(temp_media))
+    # Calcular el rango necesario para mantener la proporción 2:1
+    # El rango de precipitación debe ser el doble del rango de temperatura
+    rango_temp = max_temp - min_temp
+    rango_precip = rango_temp * 2
     
-    # límite inferior de P para poder mostrar temperaturas negativas manteniendo la proporción
-    p_min = min(0.0, 2 * t_min)
+    # Ajustar para que ambos ejes tengan la proporción correcta
+    max_precip_ajustado = max(max_precip, rango_precip)
     
-    # límite superior de P a partir de precipitación (con margen) y redondeado a múltiplos de 20
-    p_max_raw = float(np.max(precipitacion)) + 50
-    p_max = np.ceil(p_max_raw / p_step) * p_step
+    ax1.set_ylim(0, max_precip_ajustado)
+    ax2.set_ylim(min_temp, min_temp + max_precip_ajustado / 2)
     
-    ax1.set_ylim(p_min, p_max)
-    ax2.set_ylim(p_min / 2, p_max / 2)
-    
-    # ticks consistentes con la proporción
-    ax1.set_yticks(np.arange(p_min, p_max + 0.1, p_step))
-    ax2.set_yticks(np.arange(p_min / 2, p_max / 2 + 0.1, t_step))
-    
-    # Asegurar que el máximo de precipitación visible sea al menos el máximo real + un margen
-    max_precip_visible = max(max_precip_for_scale, max(precipitacion) + 20)
-    
-    ax1.set_ylim(0, max_precip_visible)
-    ax2.set_ylim(-10, max_temp_for_scale)
-    
-    # Configurar las marcas de los ejes para mantener la relación 2:1
-    temp_ticks = np.arange(-10, max_temp_for_scale+1, 10)
-    precip_ticks = np.arange(0, max_precip_visible+1, 20)  # Incrementos de 20mm
-    
-    ax1.set_yticks(precip_ticks)
-    ax2.set_yticks(temp_ticks)
+    ax1.set_yticks(np.arange(0, max_precip_ajustado + 1, 20))
+    ax2.set_yticks(np.arange(min_temp, min_temp + max_precip_ajustado / 2 + 1, 10))
     ax1.set_xticks(x)
     ax1.set_xticklabels(meses)
 
@@ -461,7 +444,7 @@ def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_es
     fig.text(0.05, 0.95, f'{coords_estacion} | {alt_estacion} msnm', fontsize=10, va='top', ha='left', color='black')
 
     # Información superior derecha
-    fig.text(0.95, 0.98, f'{int(anio_inicio)}–{int(anio_fin)}', fontsize=12, fontweight='bold', va='top', ha='right', color='black')
+    fig.text(0.95, 0.98, f'{anio_inicio}–{anio_fin}', fontsize=12, fontweight='bold', va='top', ha='right', color='black')
     fig.text(0.95, 0.95, f'Prec. total anual: {precip_total:.1f} mm', fontsize=10, va='top', ha='right', color='black')
     fig.text(0.95, 0.92, f'T. máx. media: {temp_max_media:.1f} °C', fontsize=10, va='top', ha='right', color='black')
     fig.text(0.95, 0.89, f'T. media: {temp_media_anual:.1f} °C', fontsize=10, va='top', ha='right', color='black')
