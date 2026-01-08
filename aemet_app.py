@@ -411,10 +411,27 @@ def generar_climodiagrama(tabla_climatica, nombre_estacion, lat_estacion, lon_es
     ax1.tick_params(axis='y', colors='black')
     ax1.tick_params(axis='x', colors='black')
 
-    # Limites
-    # Establecer límites para que la precipitación sea el doble de la temperatura
-    max_temp_for_scale = max(max(temp_max) + 5, 40)  # Asegurar un mínimo razonable
-    max_precip_for_scale = max_temp_for_scale * 2  # Precipitación = 2 * Temperatura
+    # --- Escala Walter-Lieth: P = 2T (40 mm ↔ 20 ºC) ---
+    p_step = 20  # 20 mm <-> 10 ºC
+    t_step = p_step / 2
+    
+    # usa el mínimo/máximo de la temperatura que estés dibujando (temp_media)
+    t_min = float(np.min(temp_media))
+    t_max = float(np.max(temp_media))
+    
+    # límite inferior de P para poder mostrar temperaturas negativas manteniendo la proporción
+    p_min = min(0.0, 2 * t_min)
+    
+    # límite superior de P a partir de precipitación (con margen) y redondeado a múltiplos de 20
+    p_max_raw = float(np.max(precipitacion)) + 50
+    p_max = np.ceil(p_max_raw / p_step) * p_step
+    
+    ax1.set_ylim(p_min, p_max)
+    ax2.set_ylim(p_min / 2, p_max / 2)
+    
+    # ticks consistentes con la proporción
+    ax1.set_yticks(np.arange(p_min, p_max + 0.1, p_step))
+    ax2.set_yticks(np.arange(p_min / 2, p_max / 2 + 0.1, t_step))
     
     # Asegurar que el máximo de precipitación visible sea al menos el máximo real + un margen
     max_precip_visible = max(max_precip_for_scale, max(precipitacion) + 20)
